@@ -60,7 +60,7 @@ def check(userid, lang):
             return
 
     if lang == 'ru':
-        text = '🎭 Доступ в канал для розыгрыша телеграм премиума доступен только игрокам.\n\n🎍 Для доступа вы должны владеть минимум одним динозавром, быть зарегестрированным 2 дня и быть подписаны на основной канал новостей.\n\n🪙 Если остались вопросы -> @dinogochi_bugs\n\n'
+        text = '🎭 Доступ в канал для розыгрыша телеграм премиума доступен только игрокам.\n\n🎍 Для доступа вы должны владеть минимум одним динозавром, быть зарегестрированны в боте минимум 2 дня и иметь подписку на основной канал новостей.\n\n🪙 Если остались вопросы -> @dinogochi_bugs\n\n'
         markup_inline.add(
             telebot.types.InlineKeyboardButton(
             text="🎋 Новостной канал", 
@@ -75,7 +75,7 @@ def check(userid, lang):
             )
 
     else:
-        text = '🎭 Access to the channel for drawing premium telegrams is available only to players.\n\n🎍 To access, you must own at least one dinosaur, be registered for 2 days and be subscribed to the main news channel.\n\n🪙 If you have any questions -> @dinogochi_bugs\n\n'
+        text = '🎭 Access to the channel for drawing premium telegrams is available only to players.\n\n🎍 To access it, you must own at least one dinosaur, be registered in the bot for at least 2 days and have a subscription to the main news channel.\n\n🪙 If you have any questions -> @dinogochi_bugs\n\n'
         markup_inline.add(
             telebot.types.InlineKeyboardButton(
             text="🎋 News Channel", 
