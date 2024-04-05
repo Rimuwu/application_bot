@@ -28,7 +28,7 @@ def check(userid, lang):
     in_bot = False
     lvl = 0
 
-    user = users.find_one({"userid": userid}, {"_id": 1})
+    user = users.find_one({"userid": userid}, {"_id": 1, 'lvl': 1})
     dino = dino_owners.find_one({"owner_id": userid}, {"_id": 1}) not in [None, {}]
     markup_inline = telebot.types.InlineKeyboardMarkup(row_width=2)
 
