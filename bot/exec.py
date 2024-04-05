@@ -103,4 +103,4 @@ def inv_callback(call: telebot.types.CallbackQuery):
 
 def run():
     print('start')
-    bot.infinity_polling(skip_pending=True)
+    bot.infinity_polling()
