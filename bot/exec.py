@@ -14,12 +14,6 @@ client = pymongo.MongoClient('mongodb://localhost:27017/')
 users = client.user.users
 dino_owners = client.dinosaur.dino_owners
 
-def get_delta(_id):
-    create = _id.generation_time
-    now = datetime.now(timezone.utc)
-    delta = now - create
-    return delta.seconds
-
 def user_in_chat(userid, chatid = CHANNEL):
     statuss = ['creator', 'administrator', 'member']
     try:
@@ -30,26 +24,24 @@ def user_in_chat(userid, chatid = CHANNEL):
     return False
 
 def check(userid, lang):
-    secs = 0
     in_chat = False
     in_bot = False
 
     user = users.find_one({"userid": userid}, {"_id": 1})
     dino = dino_owners.find_one({"owner_id": userid}, {"_id": 1}) not in [None, {}]
     markup_inline = telebot.types.InlineKeyboardMarkup(row_width=2)
-    
+
     if user:
         in_bot = True
-        secs = get_delta(user['_id'])
         in_chat = user_in_chat(userid) != False
 
-        if secs >= 10000 and dino and in_chat:
+        if user['lvl'] >= 2 and dino and in_chat:
 
             if lang == 'ru':
                 text = '❤️ Спасибо, что играете в бота, доступ к каналу открыт.\n🪙 Если остались вопросы -> @dinogochi_bugs'
             else:
                 text = '❤️ Thanks for playing the bot, access to the channel is open.\n🪙 If you have any questions -> @dinogochi_bugs'
-            
+
             markup_inline.add(
                 telebot.types.InlineKeyboardButton(
                     text="🗝️", 
@@ -60,7 +52,7 @@ def check(userid, lang):
             return
 
     if lang == 'ru':
-        text = '🎭 Доступ в канал для розыгрыша телеграм премиума доступен только игрокам.\n\n🎍 Для доступа вы должны владеть минимум одним динозавром, быть зарегестрированны в боте минимум 2 дня и иметь подписку на основной канал новостей.\n\n🪙 Если остались вопросы -> @dinogochi_bugs\n\nP.S. Перед тем как перепроверить всё, напишите /start, чтобы бот мог с вами общаться.\n\n'
+        text = '🎭 Доступ в канал для розыгрыша телеграм премиума доступен только игрокам.\n\n🎍 Для доступа вы должны владеть минимум одним динозавром, иметь 2-ой уровень, быть подписаны  на основной канал новостей.\n\n🪙 Если остались вопросы -> @dinogochi_bugs\n\nP.S. Перед тем как перепроверить всё, напишите /start, чтобы бот мог с вами общаться.\n\n'
         markup_inline.add(
             telebot.types.InlineKeyboardButton(
             text="🎋 Новостной канал", 
@@ -75,7 +67,7 @@ def check(userid, lang):
             )
 
     else:
-        text = '🎭 Access to the channel for drawing premium telegrams is available only to players.\n\n🎍 To access it, you must own at least one dinosaur, be registered in the bot for at least 2 days and have a subscription to the main news channel.\n\n🪙 If you have any questions -> @dinogochi_bugs\n\nP.S. Before you double-check everything, write / start so that the bot can communicate with you.\n\n'
+        text = '🎭 Access to the channel for drawing premium telegrams is available only to players.\n\n🎍For access, you must own at least one dinosaur, have a 2nd level, and be subscribed to the main news channel.\n\n🪙 If you have any questions -> @dinogochi_bugs\n\nP.S. Before you double-check everything, write / start so that the bot can communicate with you.\n\n'
         markup_inline.add(
             telebot.types.InlineKeyboardButton(
             text="🎋 News Channel", 
@@ -89,7 +81,7 @@ def check(userid, lang):
                     callback_data=f'recheck')
             )
 
-    text_temp = f'🗝️ {in_bot} ⌚ {secs >= 172800} 💬 {in_chat} 🦕 {dino}'
+    text_temp = f'🗝️ {in_bot} 🎲 {user['lvl'] >= 2} 💬 {in_chat} 🦕 {dino}'
     text_temp = text_temp.replace('True', '✅').replace('False', '❌')
     text += text_temp
 
