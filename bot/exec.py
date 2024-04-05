@@ -81,7 +81,7 @@ def check(userid, lang):
                     callback_data=f'recheck')
             )
 
-    text_temp = f'🗝️ {in_bot} 🎲 {user['lvl'] >= 2} 💬 {in_chat} 🦕 {dino}'
+    text_temp = f'🗝️ {in_bot} 🎲 {user['lvl']} / 2 💬 {in_chat} 🦕 {dino}'
     text_temp = text_temp.replace('True', '✅').replace('False', '❌')
     text += text_temp
 
