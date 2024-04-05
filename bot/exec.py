@@ -26,16 +26,18 @@ def user_in_chat(userid, chatid = CHANNEL):
 def check(userid, lang):
     in_chat = False
     in_bot = False
+    lvl = 0
 
     user = users.find_one({"userid": userid}, {"_id": 1})
     dino = dino_owners.find_one({"owner_id": userid}, {"_id": 1}) not in [None, {}]
     markup_inline = telebot.types.InlineKeyboardMarkup(row_width=2)
 
     if user:
+        lvl = user["lvl"]
         in_bot = True
         in_chat = user_in_chat(userid) != False
 
-        if user['lvl'] >= 2 and dino and in_chat:
+        if lvl >= 2 and dino and in_chat:
 
             if lang == 'ru':
                 text = '❤️ Спасибо, что играете в бота, доступ к каналу открыт.\n🪙 Если остались вопросы -> @dinogochi_bugs'
@@ -81,7 +83,7 @@ def check(userid, lang):
                     callback_data=f'recheck')
             )
 
-    text_temp = f'🗝️ {in_bot} 🎲 {user["lvl"]} / 2 💬 {in_chat} 🦕 {dino}'
+    text_temp = f'🗝️ {in_bot} 🎲 {lvl} / 2 💬 {in_chat} 🦕 {dino}'
     text_temp = text_temp.replace('True', '✅').replace('False', '❌')
     text += text_temp
 
