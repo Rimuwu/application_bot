@@ -1,7 +1,8 @@
 import telebot
 import json
 import pymongo
-from datetime import datetime, timezone
+from random import choice
+
 
 with open('config.json', encoding='utf-8') as f: 
     config = json.load(f) # type: dict
@@ -13,6 +14,8 @@ TO_CHANNEL = config['to_channel'] # Принимает в канал
 client = pymongo.MongoClient('mongodb://localhost:27017/')
 users = client.user.users
 dino_owners = client.dinosaur.dino_owners
+
+save_reward = client.other.save_reward
 
 def user_in_chat(userid, chatid = CHANNEL):
     statuss = ['creator', 'administrator', 'member']
@@ -47,9 +50,10 @@ def check(userid, lang):
             markup_inline.add(
                 telebot.types.InlineKeyboardButton(
                     text="🗝️", 
-                    url='https://t.me/+iFBBwYBEnvgzMTZi'))
-    
+                    url='https://t.me/+Zho72agGyOVjYTQy'))
+
             bot.approve_chat_join_request(TO_CHANNEL, userid)
+            save_reward.insert_one({'userid': userid, 'lvl': lvl})
             bot.send_message(userid, text, reply_markup=markup_inline)
             return
 
@@ -99,6 +103,18 @@ def application(message: telebot.types.ChatJoinRequest):
 def inv_callback(call: telebot.types.CallbackQuery):
     userid = call.from_user.id
     check(userid, call.from_user.language_code)
+
+@bot.message_handler(commands=['random'])
+def random1(message):
+    userid = message.from_user.id
+    chatid = message.chat.id
+
+    if userid in config['admins']:
+        data = save_reward.find({})
+        l_data = list(data)
+
+        rand = choice(l_data)
+        bot.send_message(userid, f'{rand}')
 
 
 def run():
