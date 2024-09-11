@@ -50,7 +50,7 @@ def check(userid, lang):
             markup_inline.add(
                 telebot.types.InlineKeyboardButton(
                     text="🗝️", 
-                    url='https://t.me/+Zho72agGyOVjYTQy'))
+                    url=config['url_to_channel']))
 
             bot.approve_chat_join_request(TO_CHANNEL, userid)
             save_reward.insert_one({'userid': userid, 'lvl': lvl})
