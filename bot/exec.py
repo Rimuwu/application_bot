@@ -17,6 +17,8 @@ dino_owners = client.dinosaur.dino_owners
 
 save_reward = client.other.save_reward
 
+lvl_app = config['lvl']
+
 def user_in_chat(userid, chatid = CHANNEL):
     statuss = ['creator', 'administrator', 'member']
     try:
@@ -40,7 +42,7 @@ def check(userid, lang):
         in_bot = True
         in_chat = user_in_chat(userid) != False
 
-        if lvl >= 2 and dino and in_chat:
+        if lvl >= lvl_app and dino and in_chat:
 
             if lang == 'ru':
                 text = '❤️ Спасибо, что играете в бота, доступ к каналу открыт.\n🪙 Если остались вопросы -> @dinogochi_bugs'
@@ -58,7 +60,7 @@ def check(userid, lang):
             return
 
     if lang == 'ru':
-        text = '🎭 Доступ в канал для розыгрыша телеграм премиума доступен только игрокам.\n\n🎍 Для доступа вы должны владеть минимум одним динозавром, иметь 2-ой уровень, быть подписаны  на основной канал новостей.\n\n🪙 Если остались вопросы -> @dinogochi_bugs\n\nP.S. Перед тем как перепроверить всё, напишите /start, чтобы бот мог с вами общаться.\n\n'
+        text = f'🎭 Доступ в канал для розыгрыша телеграм премиума доступен только игрокам.\n\n🎍 Для доступа вы должны владеть минимум одним динозавром, иметь {lvl_app} уровень, быть подписаны  на основной канал новостей.\n\n🪙 Если остались вопросы -> @dinogochi_bugs\n\nP.S. Перед тем как перепроверить всё, напишите /start, чтобы бот мог с вами общаться.\n\n'
         markup_inline.add(
             telebot.types.InlineKeyboardButton(
             text="🎋 Новостной канал", 
@@ -73,7 +75,7 @@ def check(userid, lang):
             )
 
     else:
-        text = '🎭 Access to the channel for drawing premium telegrams is available only to players.\n\n🎍For access, you must own at least one dinosaur, have a 2nd level, and be subscribed to the main news channel.\n\n🪙 If you have any questions -> @dinogochi_bugs\n\nP.S. Before you double-check everything, write / start so that the bot can communicate with you.\n\n'
+        text = f'🎭 Access to the channel for drawing premium telegrams is available only to players.\n\n🎍For access, you must own at least one dinosaur, have a {lvl_app} level, and be subscribed to the main news channel.\n\n🪙 If you have any questions -> @dinogochi_bugs\n\nP.S. Before you double-check everything, write / start so that the bot can communicate with you.\n\n'
         markup_inline.add(
             telebot.types.InlineKeyboardButton(
             text="🎋 News Channel", 
@@ -87,7 +89,7 @@ def check(userid, lang):
                     callback_data=f'recheck')
             )
 
-    text_temp = f'🗝️ {in_bot} 🎲 {lvl} / 2 💬 {in_chat} 🦕 {dino}'
+    text_temp = f'🗝️ {in_bot} 🎲 {lvl} / {lvl_app} 💬 {in_chat} 🦕 {dino}'
     text_temp = text_temp.replace('True', '✅').replace('False', '❌')
     text += text_temp
 
