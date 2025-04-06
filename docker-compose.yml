@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  application_bot:
+    build: .
+    container_name: application_bot
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    environment:
+      - PYTHONUNBUFFERED=1
+    restart: always
