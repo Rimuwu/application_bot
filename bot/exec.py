@@ -17,7 +17,7 @@ CHANNEL = config['channel_id']
 TO_CHANNEL = config['to_channel']
 
 client = AsyncIOMotorClient(
-    f'mongodb://{config["db_user"]}:{config["db_password"]}@localhost:27017/'
+    f'mongodb://{config["db_user"]}:{config["db_password"]}@mongo:27017/'
 )
 users = client.user.users
 dino_owners = client.dinosaur.dino_owners
