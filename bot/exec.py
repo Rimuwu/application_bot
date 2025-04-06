@@ -63,7 +63,9 @@ async def check(userid, lang):
 
             await bot.approve_chat_join_request(TO_CHANNEL, userid)
             await save_reward.insert_one({'userid': userid, 'lvl': lvl, 'lang': lang})
-            await bot.send_message(userid, text, reply_markup=types.InlineKeyboardMarkup(inline_keyboard=inline_keyboard))
+            try:
+                await bot.send_message(userid, text, reply_markup=types.InlineKeyboardMarkup(inline_keyboard=inline_keyboard))
+            except Exception as e: pass
             return
 
     text = (
@@ -92,7 +94,9 @@ async def check(userid, lang):
     text_temp = text_temp.replace('True', '✅').replace('False', '❌')
     text += text_temp
 
-    await bot.send_message(userid, text, reply_markup=types.InlineKeyboardMarkup(inline_keyboard=inline_keyboard))
+    try:
+        await bot.send_message(userid, text, reply_markup=types.InlineKeyboardMarkup(inline_keyboard=inline_keyboard))
+    except Exception as e: pass
 
 @dp.chat_join_request(lambda message: True)
 async def application(message: types.ChatJoinRequest):
@@ -143,7 +147,7 @@ async def daily_check():
         async for user in save_reward.find({}):
             userid = user["userid"]
             lang = user.get("lang", "ru")
-            
+
             print('Checking user:', userid)
 
             try:
